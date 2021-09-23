@@ -48,7 +48,12 @@ async function checkoutBtn() {
             })
         });
         const { id } = await response.json();
+        sessionStorage.setItem("session", id)
+       
         stripe.redirectToCheckout({ sessionId: id })
+
+        const stripeSessionId = sessionStorage.getItem("session")
+        console.log(stripeSessionId)
 
     } catch (err) {
         console.log(err)
