@@ -1,3 +1,4 @@
+//Co-authored-by: Susan Isaksson <SusanIsaksson@users.noreply.github.com> || Co-authored-by: Linda G <Pindilind@users.noreply.github.com>
 require('dotenv').config('.env');
 
 const secretKey = process.env.STRIPE_SECRET_KEY;
@@ -32,3 +33,5 @@ server.post('/api/session/new', async (req, res) => {
 server.listen(port, () => {
     console.log(`Tjohoo - vår server är igång på port ` + port)
 })
+
+//Co-authored-by: Susan Isaksson <SusanIsaksson@users.noreply.github.com> || Co-authored-by: Linda G <Pindilind@users.noreply.github.com>
