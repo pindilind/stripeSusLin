@@ -18,8 +18,8 @@ const productDB = {
 let cart = {};
 
 
-
 const addProduct = async (productKey) => {
+    
 
     const product = productDB[productKey];
 
@@ -28,6 +28,7 @@ const addProduct = async (productKey) => {
     cart[productKey].quantity++;
     console.log({ cart, line_items: Object.values(cart) });
 
+    console.log(sessionId)
 
 }
 
@@ -52,12 +53,19 @@ async function checkoutBtn() {
        
         stripe.redirectToCheckout({ sessionId: id })
 
-        const stripeSessionId = sessionStorage.getItem("session")
-        console.log(stripeSessionId)
-
     } catch (err) {
         console.log(err)
     }
 }
 
+
 //Co-authored-by: Susan Isaksson <SusanIsaksson@users.noreply.github.com> || Co-authored-by: Linda G <Pindilind@users.noreply.github.com>
+
+ function main() {
+    const stripeSessionId = sessionStorage.getItem("session")
+    console.log(stripeSessionId)
+
+  
+}
+
+main();
