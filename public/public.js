@@ -20,21 +20,22 @@ let cart = {};
 
 const addProduct = async (productKey) => {
     
-
     const product = productDB[productKey];
 
     cart[productKey] = cart[productKey] || product;
-    cart[productKey].quantity = cart[productKey].quantity|| 0;
+    cart[productKey].quantity = cart[productKey].quantity || 0;
     cart[productKey].quantity++;
+
+    document.getElementById("cartCounter").innerHTML = cart[productKey].quantity;
     console.log({ cart, line_items: Object.values(cart) });
 
-    console.log(sessionId)
 
 }
 
 document.getElementById("addProd").addEventListener("click", () => addProduct ("TestProduct"))
 
 async function checkoutBtn() {
+
     try {
 
         if (Object.keys(cart).length == 0) {
@@ -50,7 +51,7 @@ async function checkoutBtn() {
         });
         const { id } = await response.json();
         sessionStorage.setItem("session", id)
-       
+
         stripe.redirectToCheckout({ sessionId: id })
 
     } catch (err) {
@@ -58,14 +59,35 @@ async function checkoutBtn() {
     }
 }
 
+async function verify() {
+    try {
+        const stripeSessionId = sessionStorage.getItem('session')
+
+        if (!stripeSessionId) {
+            throw new Error("inget session ID");
+        }
+
+        const response = await fetch('api/session/verify', {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                stripeSessionId
+            })
+        });
+        const { id } = await response.json();
+        return true;
+
+    } catch (err) {
+        console.log(err)
+        return false;
+    }
+}
 
 //Co-authored-by: Susan Isaksson <SusanIsaksson@users.noreply.github.com> || Co-authored-by: Linda G <Pindilind@users.noreply.github.com>
 
  function main() {
-    const stripeSessionId = sessionStorage.getItem("session")
-    console.log(stripeSessionId)
-
-  
+     verify();
 }
 
 main();
+
